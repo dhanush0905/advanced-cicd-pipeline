@@ -1,9 +1,9 @@
 # Advanced CI/CD Pipeline with Multi-Cloud Deployment
 
-[![Build Status](https://github.com/dhanu/advanced-cicd-pipeline/workflows/CI/badge.svg)](https://github.com/dhanu/advanced-cicd-pipeline/actions)
-[![Test Coverage](https://codecov.io/gh/dhanu/advanced-cicd-pipeline/branch/main/graph/badge.svg)](https://codecov.io/gh/dhanu/advanced-cicd-pipeline)
-[![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=dhanu_advanced-cicd-pipeline&metric=alert_status)](https://sonarcloud.io/dashboard?id=dhanu_advanced-cicd-pipeline)
-[![Security Scan](https://github.com/dhanu/advanced-cicd-pipeline/workflows/Security/badge.svg)](https://github.com/dhanu/advanced-cicd-pipeline/actions)
+[![Build Status](https://github.com/dhanush0905/advanced-cicd-pipeline/workflows/CI/badge.svg)](https://github.com/dhanush0905/advanced-cicd-pipeline/actions)
+[![Test Coverage](https://codecov.io/gh/dhanush0905/advanced-cicd-pipeline/branch/main/graph/badge.svg)](https://codecov.io/gh/dhanush0905/advanced-cicd-pipeline)
+[![Code Quality](https://sonarcloud.io/api/project_badges/measure?project=dhanush0905_advanced-cicd-pipeline&metric=alert_status)](https://sonarcloud.io/dashboard?id=dhanush0905_advanced-cicd-pipeline)
+[![Security Scan](https://github.com/dhanush0905/advanced-cicd-pipeline/workflows/Security/badge.svg)](https://github.com/dhanush0905/advanced-cicd-pipeline/actions)
 
 ## Overview
 
@@ -63,7 +63,7 @@ This project implements a comprehensive CI/CD pipeline with multi-cloud deployme
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/dhanu/advanced-cicd-pipeline.git
+git clone https://github.com/dhanush0905/advanced-cicd-pipeline.git
 cd advanced-cicd-pipeline
 ```
 
