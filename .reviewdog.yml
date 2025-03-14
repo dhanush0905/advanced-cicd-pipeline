@@ -1,0 +1,82 @@
+runner:
+  # ESLint runner for JavaScript/TypeScript
+  eslint:
+    cmd: npm run lint
+    format: eslint
+    level: warning
+    target: all
+    ignore: ["node_modules/", "dist/", "build/"]
+
+  # Pylint runner for Python
+  pylint:
+    cmd: pylint --rcfile=.pylintrc src tests
+    format: pylint
+    level: warning
+    target: all
+    ignore: ["__pycache__/", "*.pyc", "venv/"]
+
+  # Security scanning with Bandit
+  bandit:
+    cmd: bandit -r src tests
+    format: pylint
+    level: error
+    target: all
+
+  # Type checking with MyPy
+  mypy:
+    cmd: mypy src tests
+    format: mypy
+    level: warning
+    target: all
+
+  # Code complexity analysis
+  radon:
+    cmd: radon cc src tests -a
+    format: pylint
+    level: warning
+    target: all
+
+  # OWASP Dependency Check
+  dependency-check:
+    cmd: dependency-check --scan . --suppression suppression.xml --format JSON
+    format: javascript
+    level: error
+    target: all
+
+  # SonarQube analysis
+  sonarqube:
+    cmd: sonar-scanner
+    format: checkstyle
+    level: warning
+    target: all
+
+# AI-driven suggestions configuration
+suggester:
+  run: true
+  ignore_labels: ["dependencies", "documentation"]
+  max_suggestions_per_file: 10
+  max_suggestions_per_review: 50
+  suggestion_labels: ["enhancement", "refactoring", "security"]
+
+# Code quality thresholds
+threshold:
+  similar_code: 3
+  complex_code: 15
+  long_method: 50
+  large_class: 500
+
+# Review settings
+review:
+  open: true
+  close_previous: true
+  comment_style: "threaded"
+  request_changes: true
+  labels: ["needs-review"]
+  assignees: ["code-reviewers"]
+
+# Notification settings
+notification:
+  slack:
+    channel: "#code-review"
+    on_success: change
+    on_failure: always 

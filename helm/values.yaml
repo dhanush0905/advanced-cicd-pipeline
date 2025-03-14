@@ -1,0 +1,124 @@
+global:
+  environment: staging
+
+frontend:
+  name: frontend
+  replicaCount: 2
+  image:
+    repository: your-registry.azurecr.io/frontend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: app.your-domain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: frontend-tls
+        hosts:
+          - app.your-domain.com
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+backend:
+  name: backend
+  replicaCount: 2
+  image:
+    repository: your-registry.azurecr.io/backend
+    tag: latest
+    pullPolicy: Always
+  service:
+    type: ClusterIP
+    port: 8000
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: api.your-domain.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: backend-tls
+        hosts:
+          - api.your-domain.com
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 1Gi
+  autoscaling:
+    enabled: true
+    minReplicas: 2
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+prometheus:
+  enabled: true
+  alertmanager:
+    enabled: true
+    persistence:
+      enabled: true
+  server:
+    persistentVolume:
+      enabled: true
+    retention: 15d
+
+grafana:
+  enabled: true
+  persistence:
+    enabled: true
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards
+  dashboards:
+    default:
+      app-metrics:
+        file: dashboards/app-metrics.json
+  adminPassword: admin-password-to-change
+
+vault:
+  enabled: true
+  server:
+    dev:
+      enabled: false
+    ha:
+      enabled: true
+      replicas: 3
+    ingress:
+      enabled: true
+      hosts:
+        - host: vault.your-domain.com 

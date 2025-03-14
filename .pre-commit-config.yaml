@@ -1,0 +1,102 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+      - id: detect-private-key
+      - id: check-case-conflict
+      - id: mixed-line-ending
+
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        language_version: python3.10
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0-alpha.9-for-vscode
+    hooks:
+      - id: prettier
+        types_or: [javascript, jsx, ts, tsx, css, scss, json]
+        additional_dependencies:
+          - prettier@2.8.8
+
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.40.0
+    hooks:
+      - id: eslint
+        files: \.[jt]sx?$
+        types: [file]
+        additional_dependencies:
+          - eslint@8.40.0
+          - "@typescript-eslint/parser@5.59.5"
+          - "@typescript-eslint/eslint-plugin@5.59.5"
+          - eslint-config-prettier@8.8.0
+          - eslint-plugin-react@7.32.2
+          - eslint-plugin-react-hooks@4.6.0
+          - eslint-plugin-jsx-a11y@6.7.1
+
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+      - id: bandit
+        args: ["-c", "pyproject.toml"]
+        additional_dependencies: ["bandit[toml]"]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.3.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - types-requests
+          - types-PyYAML
+          - pydantic
+
+  - repo: https://github.com/PyCQA/pylint
+    rev: v2.17.3
+    hooks:
+      - id: pylint
+        args: ["--rcfile=.pylintrc"]
+        additional_dependencies:
+          - pylint-django
+          - pylint-celery
+
+  - repo: local
+    hooks:
+      - id: test-coverage
+        name: Check test coverage
+        entry: pytest --cov=src --cov-fail-under=80
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: security-check
+        name: Check security vulnerabilities
+        entry: safety check
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: dependency-check
+        name: OWASP dependency check
+        entry: dependency-check --scan . --suppression suppression.xml --failOnCVSS 7
+        language: system
+        pass_filenames: false
+        always_run: true
+
+ci:
+  autofix_commit_msg: "🤖 Auto-fix code style issues"
+  autofix_prs: true
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false 

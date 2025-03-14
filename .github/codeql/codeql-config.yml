@@ -1,0 +1,56 @@
+name: "Advanced CI/CD CodeQL Config"
+
+disable-default-queries: false
+
+queries:
+  - name: Security-and-Quality
+    uses: security-and-quality
+  - name: Security-Extended
+    uses: security-extended
+
+paths:
+  - src
+  - tests
+paths-ignore:
+  - node_modules
+  - '**/*.test.ts'
+  - '**/*.test.tsx'
+  - '**/*.spec.py'
+  - 'dist'
+  - 'build'
+  - '**/__pycache__'
+
+query-filters:
+  - exclude:
+      problem.severity:
+        - note
+        - recommendation
+
+security-severity-thresholds:
+  - level: high
+    threshold: 0
+  - level: medium
+    threshold: 2
+  - level: low
+    threshold: 5
+
+output:
+  sarif-add-snippets: true
+  text: false
+  csv: false
+  sarif: true
+  html: true
+  markdown: true
+
+database:
+  save: true
+  download: true
+  clean: false
+
+trap-caching: true
+
+ram: 16384
+
+threads: 0
+
+debug: false 
